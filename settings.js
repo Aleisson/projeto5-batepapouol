@@ -1,23 +1,36 @@
-let batepapo = [{
-    
-}]
+// perguntar o nome
 
+function cadastrarUsuario() {
+  
+    const cadastro = prompt("Qual é o seu lindo nome?");
+    const pergunta = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",
+        {
+            name: cadastro
+        }
+    );
+    pergunta.then(AcessoLiberado);
+    pergunta.catch(nomeEnviadoComErro);
+}
+cadastrarUsuario();
 
-
-
-//fazer função para pegar a lista no servidor
-function buscarDados(){
-
-    const promessa = axios.get('http://mock-api.driven.com.br/api/v6/uol');
-    promessa = resposta.then(renderizarDados);
-
-//variável .get
-//variável .then
+function AcessoLiberado() {
+    alert("Acesso liberado!");
 }
 
-//função pra renderizar o arquivo
-function renderizarDados(resposta){
 
-    //selecionar a classes a ser modificada
-    // exibir a resosta
+function nomeEnviadoComErro(erro) {
+    console.log(erro)
+    if (erro.response.status === 400) {
+        prompt("Cadastre um novo nome!");
+    }
+    if (erro.response.status === 200) {
+        alert("Nome cadastrado com sucesso!");
+    }
 }
+
+function buscarDados() {
+    const buscar = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+
+    buscar.then(AcessoLiberado);
+}
+
