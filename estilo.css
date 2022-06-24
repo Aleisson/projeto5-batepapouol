@@ -1,6 +1,10 @@
+
 @media(max-width: 414px) {
     * {
         box-sizing: border-box;
+    }
+    body{
+       background-color: #E5E5E5;
     }
 
     .titulo {
@@ -8,13 +12,11 @@
         height: 20vw;
         display: flex;
         justify-content: space-between;
-        /*background-color: #FFFFFF;*/
-        background-color: pink;
+        background-color: #FFFFFF;
         filter: drop-shadow(0px, 4px);
-        border-radius: 6px;
+        border-radius: 4px;
         position: fixed;
         top: 0;
-        box-shadow: black;
         margin-bottom: 2px;
 
     }
@@ -62,19 +64,17 @@
 
     .mensagem-status {
         height: 12vw;
-        background-color: blue;
+        background-color: #DCDCDC;
         border-radius: .5vw;
         fill: solid;
+        padding: 3vw 3vw 2vw 25vw;
         display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .mensagem-reservada {
         height: 15vw;
-        /* background-color: #ffffff;*/
-        margin-top: 2vw;
-        background-color: black;
+        background-color: #ffffff;
+        margin-top: 3vw;
         fill: solid;
         border-radius: .5vw;
         display: flex;
