@@ -1,40 +1,46 @@
 // entrar na sala
-let cadastro = prompt("Qual é o seu lindo nome?");
+let cadastro;
 let promisse;
-let listaMensagem = [];
+let lista = [];
+let paraTodos;
+let onlineSim;
 cadastrarUsuario();
-function cadastrarUsuario() {
 
+/*function paginaPrincipal() {
+    const usuario = document.querySelector(".apresentacao .input ");
+    if (usuario.classList.contains("input").value) {
+        usuario.ClassList.remove("container")
+    }else{
+        usuario.classList.remove("ocultar")
+    } 
+}
+*/
+
+function cadastrarUsuario() {
+    cadastro = prompt("Qual é o seu lindo nome?");
     const pergunta = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",
         {
             name: cadastro
         }
     );
+    
     pergunta.then(acessoLiberado);
     pergunta.catch(acessoNegado);
 }
 
-function acessoLiberado(response) {
-
-    if (response.status === 200) {
-        alert("Acesso Liberado!");
-    }
-    // mensagem entrou na sala
-    const li = document.querySelector(".mensagem-status");
-    li.innerHTML = `${cadastro} entra na sala... `;
+function acessoLiberado() {
+    alert("Acesso Liberado!");
+    buscarMensagem();
 }
 
-function acessoNegado(erro) {
-
-    if (erro.response.status === 400) {
-        prompt("Cadastre um novo nome!");
-    }
+function acessoNegado() {
+    alert("Cadastre um novo nome! Esse já existe!")
+    cadastrarUsuario();
 }
-
 //manter conexão
+
 informarConexao();
 function informarConexao() {
-    console.log(informarConexao)
     promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {
         name: cadastro
     });
@@ -42,74 +48,140 @@ function informarConexao() {
     promisse.catch(naoConectado);
 }
 
-
 function simConectado(type) {
     if (type.message !== undefined) {
         promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {
             type: message
         });
-        setInterval(simConectado, 5000)
+        promisse.then(envioDeMensagem)
+        setInterval(simConectado, 5000, cadastro)
     }
 }
 
 function naoConectado(erro) {
     if (erro.type === undefined) {
         const li = document.querySelector(".mensagem-status");
-        li.innerHTML = `${cadastro} saiu na sala... `;
+        li.innerHTML = `${cadastro}`;
     }
-    clearInterval(simConectado)
+    clearInterval(simConectado);
 }
 
 //buscarMensagens
+/*function mensagemScroll() {
+    const elementosAparecer = document.querySelector('.mensagem');
+    elementosAparecer.scrollIntoView();
+    
+}/*
+function reloadThePage() {
+    window.location.reload();
+}*/
 
 function buscarMensagem() {
     const buscar = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     buscar.then(executarResposta);
-    console.log(buscar)
+   
 }
+
 function executarResposta(response) {
     lista = response.data;
+    renderizarTodasMensagens();
+    console.log(lista)
 }
 
-function renderizarMensagemParaTodos() {
-    const paraTodos = document.querySelector(".mensagem-normal");
-    paraTodos.scrollIntoView();
-    paraTodos.innerHTML = "";
+function renderizarTodasMensagens() {
+    // for(let i =0; i < lista.length; i++){
 
+    renderizarMensagemStatus();
+    renderizarMensagemParaTodos();
+    renderizarMensagemReservada();
+}
+
+
+
+
+function renderizarMensagemParaTodos() {
+    paraTodos = document.querySelector(".mensagem-normal").value;
+    paraTodos.innerHTML = "";
     for (let i = 0; i > lista.length; i++) {
-        paraTodos.inneHTML += `
-        <li class="mensagem-normal">
-        ${lista[i].type}
+        if (lista[i].type === "message") {
+            paraTodos.inneHTML += `
+            <li class="mensagem-normal">
+            <p><span class="hora">${lista[i].time}</span> <span class ="usuario">${lista[i].from}</span><span class="status">${lista[i].message}</span></p>
         </li>
-`
+         `
+        }
     }
 }
 
 function renderizarMensagemStatus() {
-    const status = document.querySelector(".mensagem-status");
-    status.scrollIntoView();
-    status = "";
+    onlineSim = document.querySelector(".mensagem-status").value;
+    onlineSim.innerHTML = "";
     for (let i = 0; i > lista.length; i++) {
-        status.inneHTML += `
-        
-        <li class="mensagem-status">
-        ${lista[i].type}
+        if (lista[i].type === "status") {
+            onlineSim.inneHTML += `
+            <li class="mensagem-status">
+            <p><span class="hora">${lista[i].time}</span> <span class ="usuario">${lista[i].from}</span><span class="status">${lista[i].message}</span></p>
         </li>
          `
+        }
     }
 }
+
 function renderizarMensagemReservada() {
-    const reservada = document.querySelector(".mensagem-reservada");
-    reservada.scrollIntoView();
+    const reservada = document.querySelector(".mensagem-reservada").value;
     reservada.innerHTML = "";
     for (let i = 0; i < lista.length; i++) { //maior ou menor?
-        resevarda += `
+        reservada.innerHTML += `
         <li class="mensagem-reservada">
-            ${lista[i].type}
-        </li>
-   ` }
+        <p><span class="hora">${lista[i].time}</span> <span class ="usuario">${lista[i].from}</span><span class="status">${lista[i].message}</span></p>
+    </li>
+   `
+    }
 }
 
-function envioDeMensagem(){
+//enviar mensagem para o servidor  AJEITAR
 
+/*
+function envioDeMensagem() {
+    cadastro = document.querySelector(".mensagem").value;
+    const online = document.querySelector(".mensagem-status").value;
+    const paraTodos = document.querySelector(".mensagem-normal").value;
+    const preparo = document.querySelector(".modo-preparo-receita").value;
+
+    const enviarMensagem = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",
+        {
+            from: cadastro,
+            to: paraTodos,
+            text: value,
+            type: promisse
+        }
+    );
+    enviarMensagem.then(renderizarMensagemParaTodos);
+    console.log(envioDeMensagem)
+
+
+
+
+
+
+
+    const novaReceita = {
+        titulo: nome,
+        ingredientes: ingredientes,
+        preparo: preparo
+    };
+
+    console.log(novaReceita);
+
+    //Vou pegar a promise de retorno do envio para API - Quero pegar pode pode dar bom ou pode dar ruim
+    const promise = axios.post(
+        "https://mock-api.bootcamp.respondeai.com.br/api/v2/tastecamp/receitas",
+        novaReceita
+    );
+    //Quando a promise é resolvida com SUCESSO
+    promise.then(buscarReceitas);
+    //Quando a promise é resolvida com FALHA (API pode tá fora, ou você mandou uma receita errada)
+    promise.catch(alertaErro);
 }
+  //Vai executar somente quando der ruim no POST
+*/

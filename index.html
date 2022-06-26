@@ -12,10 +12,10 @@
 </head>
 
 <body>
-    <!--<div class="apresentacao ocultar">
+    <!-- <div class="apresentacao" onclick="paginaPrincipal(this)">
         <img src="./assets/imagens/logo.png">
         <input class="texto" type="text">
-        <button onclick="enviar(this)">
+        <button>
            <p>Entrar</p>
         </button>
     </div>-->
@@ -27,17 +27,24 @@
         </div>
 
 
-        <div class="mensagem">
-            <ul class = "mensagens">
-                <li class="mensagem-status"></li>
-                <li class="mensagem-reservada"></li>
-                <li class="mensagem-normal"></li>
+        <div class="mensagem" onclick="mensagemScroll(this)">
+            <ul class="mensagens">
+                <li class="mensagem-status">
+                    <p><span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+
+                </li>
+                <li class="mensagem-reservada">
+                    <p><span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+                </li>
+                <li class="mensagem-normal">
+                    <span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+                </li>
             </ul>
         </div>
 
 
         <div class="rodape">
-            <input type="text" class="text">
+            <input onClick="reloadThePage()" type="text" placehorlder ="Insira seu texto aqui">
             <ion-icon name="paper-plane-outline"></ion-icon>
         </div>
     </div>
