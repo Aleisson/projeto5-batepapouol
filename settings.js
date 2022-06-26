@@ -4,18 +4,9 @@ let promisse;
 let lista = [];
 let paraTodos;
 let onlineSim;
+let message;
+let ultimaMenssagem;
 cadastrarUsuario();
-
-/*function paginaPrincipal() {
-    const usuario = document.querySelector(".apresentacao .input ");
-    if (usuario.classList.contains("input").value) {
-        usuario.ClassList.remove("container")
-    }else{
-        usuario.classList.remove("ocultar")
-    } 
-}
-*/
-
 function cadastrarUsuario() {
     cadastro = prompt("Qual é o seu lindo nome?");
     const pergunta = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",
@@ -23,9 +14,10 @@ function cadastrarUsuario() {
             name: cadastro
         }
     );
-    
+
     pergunta.then(acessoLiberado);
     pergunta.catch(acessoNegado);
+    setInterval(envioDeMensagem, 3000)
 }
 
 function acessoLiberado() {
@@ -53,8 +45,7 @@ function simConectado(type) {
         promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {
             type: message
         });
-        promisse.then(envioDeMensagem)
-        setInterval(simConectado, 5000, cadastro)
+        promisse.then(envioDeMensagem);
     }
 }
 
@@ -67,40 +58,35 @@ function naoConectado(erro) {
 }
 
 //buscarMensagens
-/*function mensagemScroll() {
-    const elementosAparecer = document.querySelector('.mensagem');
+function mensagemScroll() {
+    const elementosAparecer = document.querySelector('.enviarMensagem').value;
     elementosAparecer.scrollIntoView();
-    
-}/*
+
+}
+
 function reloadThePage() {
-    window.location.reload();
-}*/
+    window.location.reload(".enviarMensagem").value;
+}
 
 function buscarMensagem() {
     const buscar = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     buscar.then(executarResposta);
-   
+
 }
 
 function executarResposta(response) {
     lista = response.data;
     renderizarTodasMensagens();
-    console.log(lista)
 }
 
 function renderizarTodasMensagens() {
-    // for(let i =0; i < lista.length; i++){
 
-    renderizarMensagemStatus();
-    renderizarMensagemParaTodos();
-    renderizarMensagemReservada();
+renderizarMensagemStatus();
+renderizarMensagemParaTodos();
 }
 
-
-
-
 function renderizarMensagemParaTodos() {
-    paraTodos = document.querySelector(".mensagem-normal").value;
+    paraTodos = document.querySelector(".mensagem-normal");
     paraTodos.innerHTML = "";
     for (let i = 0; i > lista.length; i++) {
         if (lista[i].type === "message") {
@@ -111,10 +97,12 @@ function renderizarMensagemParaTodos() {
          `
         }
     }
+    ultimaMenssagem = 
+    envioDeMensagem();
 }
 
 function renderizarMensagemStatus() {
-    onlineSim = document.querySelector(".mensagem-status").value;
+    onlineSim = document.querySelector(".mensagem-status");
     onlineSim.innerHTML = "";
     for (let i = 0; i > lista.length; i++) {
         if (lista[i].type === "status") {
@@ -125,63 +113,33 @@ function renderizarMensagemStatus() {
          `
         }
     }
-}
 
-function renderizarMensagemReservada() {
-    const reservada = document.querySelector(".mensagem-reservada").value;
-    reservada.innerHTML = "";
-    for (let i = 0; i < lista.length; i++) { //maior ou menor?
-        reservada.innerHTML += `
-        <li class="mensagem-reservada">
-        <p><span class="hora">${lista[i].time}</span> <span class ="usuario">${lista[i].from}</span><span class="status">${lista[i].message}</span></p>
-    </li>
-   `
-    }
+    envioDeMensagem();
 }
 
 //enviar mensagem para o servidor  AJEITAR
-
-/*
 function envioDeMensagem() {
-    cadastro = document.querySelector(".mensagem").value;
-    const online = document.querySelector(".mensagem-status").value;
-    const paraTodos = document.querySelector(".mensagem-normal").value;
-    const preparo = document.querySelector(".modo-preparo-receita").value;
+    const usuario = document.querySelector(".mensagem");
+    const text = document.querySelector(".digitarMensagem").value;
+     message = document.querySelector(".mensagem-status .mensagem-normal");
+    const todos = document.querySelector(".mesagem-normal");
 
     const enviarMensagem = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",
         {
-            from: cadastro,
-            to: paraTodos,
-            text: value,
-            type: promisse
+            from: usuario,
+            to: todos,
+            text: text,
+            type: message
         }
     );
     enviarMensagem.then(renderizarMensagemParaTodos);
-    console.log(envioDeMensagem)
-
-
-
-
-
-
-
-    const novaReceita = {
-        titulo: nome,
-        ingredientes: ingredientes,
-        preparo: preparo
-    };
-
-    console.log(novaReceita);
-
-    //Vou pegar a promise de retorno do envio para API - Quero pegar pode pode dar bom ou pode dar ruim
-    const promise = axios.post(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/tastecamp/receitas",
-        novaReceita
-    );
-    //Quando a promise é resolvida com SUCESSO
-    promise.then(buscarReceitas);
-    //Quando a promise é resolvida com FALHA (API pode tá fora, ou você mandou uma receita errada)
-    promise.catch(alertaErro);
+    console.log(enviarMensagem)
 }
-  //Vai executar somente quando der ruim no POST
-*/
+
+function digitarMensagem(input) {
+    if (input.value === message) {
+        let acionarIcone = document.querySelector(".icone")
+        acionarIcone.classList.add("mensagem")
+    }
+}
+digitarMensagem();
