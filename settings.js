@@ -14,7 +14,7 @@ function cadastrarUsuario() {
     }
 
     const promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", usuario);
-    setInterval(informarConexao, 5000, nome)
+    setInterval(informarConexao, 5000, usuario)
     promisse.then(acessoLiberado);
     promisse.catch(acessoNegado);
     console.log(promisse)
@@ -22,7 +22,7 @@ function cadastrarUsuario() {
 
 function acessoLiberado() {
     alert("Acesso Liberado!");
-    // buscarMensagem();
+    buscarMensagem();
     console.log("SIM")
 }
 
@@ -37,11 +37,16 @@ function acessoNegado(erro) {
 //manter conexão
 function informarConexao() {
     console.log("CONEXAO")
-}
-informarConexao();
+    /*if(erro.reponse.data === 400){
+        window.location.reload();
+    }else{*/
+
+    }
+
+//informarConexao();
 
 //buscarMensagens
-function buscarMensagem() {
+function buscarMensagem() { //SUCESSO
     const buscar = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     buscar.then(executarResposta);
     setInterval(buscarMensagem, 3000)
@@ -50,7 +55,6 @@ function buscarMensagem() {
 function executarResposta(response) {
     lista = response.data;
     console.log("response")
-    renderizarMensagemParaTodos();
 }
 
 
@@ -75,16 +79,16 @@ function renderizarMensagem() {
     }
     let ultimaMensagem = exibirMensagem.lastChild;
     ultimaMensagem.scrollIntoView();
-    console.log(ultimaMensagem)
-    digitarMensagem();
+    console.log("ultimaMensagem")
+    executarResposta();
 }
 
 function exibirMensagem() {
     let escreverMensagem;
 
-    const texto = document.querySelector(".rodape").value;
+    const texto = document.querySelector(".escrever .icone").value;
     escreverMensagem = {
-        from: nome,
+        from: usuario,nome,
         to: "Todos",
         text: texto,
         type: "message"
@@ -92,7 +96,10 @@ function exibirMensagem() {
     }
     const enviarMensagem = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", escreverMensagem);
 
-    enviarMensagem.then();
+    enviarMensagem.then(renderizarMensagem);
     enviarMensagem.catch();
-    document.querySelector("input").value = "";
+    document.querySelector("icone").value = "";
+    renderizarMensagem();
+    console.log(enviarMensagem)
 }
+
