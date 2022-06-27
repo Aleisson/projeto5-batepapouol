@@ -63,6 +63,7 @@ function executarResposta(response) {
 function renderizarMensagem() {
 
     let exibirMensagem = document.querySelector(".mensagem .escrever").value; //main
+   //  for (let i = 0; i > lista.length; i++)  acredito que funcionária
     for (let i = 0; i > lista.length; i++) {
         if (lista[i].type === "message") {
             exibirMensagem.inneHTML += `
