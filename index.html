@@ -26,32 +26,33 @@
             <ion-icon name="people-sharp"></ion-icon>
         </div>
 
-        
+
         <div class="mensagem" onclick="mensagemScroll(this)">
             <ul class="mensagens">
                 <li class="mensagem-status">
-                    <p><span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+                    <p><span class="hora"></span> <span class="usuario"></span><span class="status"></span></p>
 
                 </li>
                 <li class="mensagem-reservada">
-                    <p><span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+                    <p><span class="hora"></span> <span class="usuario"></span><span class="status"></span></p>
                 </li>
                 <li class="mensagem-normal">
-                    <span class="hora"></span> <span class ="usuario"></span><span class="status"></span></p>
+                    <span class="hora"></span> <span class="usuario"></span><span class="status"></span></p>
                 </li>
             </ul>
+            <div class="rodape">
+                <input onClick="exibirMensagem(this)" type="text" placehorlder="Insira seu texto aqui">
+                <ion-icon name="paper-plane-outline" classe="icone"></ion-icon>
+            </div>
         </div>
 
 
-        <div class="rodape">
-            <input onClick="reloadThePage, digitarMensagem(this)" type="text" placehorlder ="Insira seu texto aqui">
-            <ion-icon name="paper-plane-outline" classe="icone"></ion-icon>
-        </div>
+        
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="settings.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="settings.js"></script>
 </body>
 
 </html>
